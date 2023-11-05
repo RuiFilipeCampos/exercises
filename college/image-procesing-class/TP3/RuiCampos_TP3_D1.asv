@@ -1,0 +1,35 @@
+function [] = RuiCampos_TP3_D1(name, f, g0, gf)
+%% Reading Image/Creating and Opening Video Obj
+Io = imread(name);
+videoObj = VideoWriter('TGama.avi'); open(videoObj); %videoObj.FrameRate=4;
+%% Getting the right number of frames...
+%if the number of frames is not divisible by 3, we're gonna have problems
+
+r = rem(f,3);
+if r ~= 0 
+    f   = floor(f/3); 
+    
+    dg1 = (g0-1) /(f-1);
+    dg2 = (gf-g0)/(f-1);
+    
+    f = f + r;
+    dg3 = (1-gf)/(f-1);
+else %otherwhise, I can just do the division
+    f = f/3;
+    
+    dg1 = (g0-1) /(f-1);
+    dg2 = (gf-g0)/(f-1);
+    dg3 = (1-gf) /(f-1);
+end
+
+gamma = [1:dg1:g0, g0:dg2:gf, gf:dg3:1];
+%size(gamma)
+%% Rendering video
+disp('Rendering Video...')
+for g=gamma
+   writeVideo(  videoObj, imadjust(Io,[],[],g)  ); 
+end
+close(videoObj)
+disp('Done')
+end
+
