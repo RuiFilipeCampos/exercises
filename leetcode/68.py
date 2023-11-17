@@ -1,6 +1,3 @@
-""" https://leetcode.com/problems/text-justification """
-
-
 class Solution:
     def fullJustify(self, words: List[str], maxWidth: int) -> List[str]:
         return full_justify(words, maxWidth)
